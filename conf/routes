@@ -6,7 +6,7 @@
 GET     /                              controllers.Products.index()
 GET     /products                      controllers.Products.list(page: Integer ?= 1)
 GET     /products/new                  controllers.Products.newProduct()
-GET     /products/:ean                 controllers.Products.details(ean: models.Product)
+GET     /products/:ean                 controllers.Products.details(ean: String)
 POST    /products                      controllers.Products.save()
 DELETE  /products/:ean                 controllers.Products.delete(ean: String)
 GET     /picture/:ean                  controllers.Products.picture(ean: String)

@@ -1,6 +1,13 @@
 package models;
 
-public class Warehouse {
+import java.util.*;
+import javax.persistence.*;
+import io.ebean.*;
+
+@Entity
+public class Warehouse extends Model {
+  public static final Finder<Long, Warehouse> find = new Finder<>(Warehouse.class);
+
   private Warehouse warehouse;
   private Product product;
   private Long quantity;

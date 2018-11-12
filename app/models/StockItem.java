@@ -3,7 +3,14 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockItem {
+import java.util.*;
+import javax.persistence.*;
+import io.ebean.*;
+
+@Entity
+public class StockItem extends Model {
+  public static final Finder<Long, StockItem> find = new Finder<>(StockItem.class);
+
   private String name;
   private List<StockItem> stock = new ArrayList<>();
 

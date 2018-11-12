@@ -1,8 +1,14 @@
 package models;
 
 import play.data.validation.Constraints;
+import io.ebean.*;
+import javax.persistence.*;
 import java.util.*;
-public class Tag {
+
+@Entity
+public class Tag  extends Model {
+  public static final Finder<Long, Tag> find = new Finder<>(Tag.class);
+
   public Long getId() {
     return id;
   }
@@ -31,30 +37,4 @@ public class Tag {
   @Constraints.Required
   private String name;
   private List<Product> products;
-  public Tag(){
-    // Left empty
-  }
-  public Tag(Long id, String name, Collection<Product> products) {
-    this.id = id;
-    this.name = name;
-    this.products = new LinkedList<Product>(products);
-    for (Product product : products) {
-      product.getTags().add(this);
-    }
-  }
-
-  private static List<Tag> tags = new LinkedList<Tag>();
-  static {
-    tags.add(new Tag(1L, "lightweight",
-            Product.findByName("paperclips 1")));tags.add(new Tag(2L, "metal",
-            Product.findByName("paperclips")));
-    tags.add(new Tag(3L, "plastic",
-            Product.findByName("paperclips")));
-  }
-  public static Tag findById(Long id) {
-    for (Tag tag : tags) {
-      if(tag.id == id) return tag;
-    }
-    return null;
-  }
 }

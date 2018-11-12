@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.common.io.Files;
+import io.ebeaninternal.server.lib.util.Str;
 import models.Product;
 import models.Tag;
 import play.mvc.Http.MultipartFormData;
@@ -25,7 +26,7 @@ public class Products extends Controller {
   }
 
   public Result list(int page) {
-    List<Product> products = Product.findAll();
+    List<Product> products = Product.find.all();
     return ok(list.render(products));
   }
 
@@ -33,7 +34,8 @@ public class Products extends Controller {
     Form<Product> productForm = formFactory.form(Product.class);
     return ok(details.render(productForm));
   }
-  public Result details(Product product) {
+  public Result details(String ean) {
+    Product product = Product.find.query().findOne();
     Form<Product> filledForm = formFactory.form(Product.class).fill(product);
     return ok(details.render(filledForm));
   }
@@ -60,7 +62,7 @@ public class Products extends Controller {
     List<Tag> tags = new ArrayList<>();
     for(Tag tag : product.getTags()){
       if(tag.getId() != null){
-        tags.add(Tag.findById(tag.getId()));
+        tags.add(Tag.find.byId(tag.getId()));
       }
     }
     product.setTags(tags);
@@ -70,16 +72,16 @@ public class Products extends Controller {
   }
 
   public Result delete(String ean) {
-    final Product product = Product.findByEan(ean);
+    final Product product = Product.find.query().findOne();
     if(product == null) {
-      return notFound(String.format("Product %s does not exists.", ean));
+      return notFound(String.format("Product %s does not exists.", id));
     }
-    Product.remove(product);
+    //Product.find.deleteById((Long) 0);
     return redirect(routes.Products.list(1));
   }
 
-  public Result picture(String ean) {
-    final Product product = Product.findByEan(ean);
+  public Result picture(String id) {
+    final Product product = Product.find.query().findOne();
     if(product == null) return notFound();
     return ok(product.getPicture());
   }
