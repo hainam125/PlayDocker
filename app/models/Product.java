@@ -14,8 +14,11 @@ import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.*;
+import javax.persistence.*;
+import io.ebean.*;
 
-public class Product implements PathBindable<Product> {
+public class Product extends Model implements PathBindable<Product> {
   private static List<Product> products;
   static {
     products = new ArrayList<Product>();
