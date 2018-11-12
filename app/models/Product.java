@@ -3,6 +3,7 @@ package models;
 import play.data.validation.Constraints;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Product {
@@ -73,10 +74,19 @@ public class Product {
     this.description = description;
   }
 
+  public List<Tag> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
+  }
+
   @Constraints.Required
   private String ean;
   private String name;
   private String description;
+  private List<Tag> tags = new LinkedList<Tag>();
 
   public Product() {}
   public Product(String ean, String name, String description) {

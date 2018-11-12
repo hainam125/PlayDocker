@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Product;
+import models.Tag;
 import play.mvc.With;
 import views.html.*;
 import play.data.Form;
@@ -9,6 +10,7 @@ import play.mvc.Result;
 import play.data.FormFactory;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @With(CatchAction.class)
@@ -44,6 +46,13 @@ public class Products extends Controller {
       return badRequest(details.render(boundForm));
     }
     Product product = boundForm.bindFromRequest().get();
+    List<Tag> tags = new ArrayList<>();
+    for(Tag tag : product.getTags()){
+      if(tag.getId() != null){
+        tags.add(Tag.findById(tag.getId()));
+      }
+    }
+    product.setTags(tags);
     product.save();
     flash("success", String.format("Successfully added product %s", product));
     return redirect(routes.Products.list(1));
