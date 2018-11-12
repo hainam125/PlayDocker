@@ -31,11 +31,7 @@ public class Products extends Controller {
     Form<Product> productForm = formFactory.form(Product.class);
     return ok(details.render(productForm));
   }
-  public Result details(String ean) {
-    final Product product = Product.findByEan(ean);
-    if(product == null){
-      return notFound(String.format("Product %s does not exist.", ean));
-    }
+  public Result details(Product product) {
     Form<Product> filledForm = formFactory.form(Product.class).fill(product);
     return ok(details.render(filledForm));
   }

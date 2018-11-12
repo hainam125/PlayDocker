@@ -1,12 +1,13 @@
 package models;
 
 import play.data.validation.Constraints;
+import play.mvc.PathBindable;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Product {
+public class Product implements PathBindable<Product> {
   private static List<Product> products;
   static {
     products = new ArrayList<Product>();
@@ -98,5 +99,19 @@ public class Product {
     return String.format("%s - %s - %s", ean, name, description);
   }
 
-
+  //Binding—we’re looking in the DB for a product with an EAN number equal to the one passed in our URL
+  @Override
+  public Product bind (String key, String value) {
+    return findByEan(value);
+  }
+  //Unbinding—we’re returning our raw value
+  @Override
+  public String unbind(String key) {
+    return this.ean;
+  }
+  //JavaScript unbinding—we’re returning our raw value
+  @Override
+  public String javascriptUnbind() {
+    return this.ean;
+  }
 }
