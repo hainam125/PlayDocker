@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-@With(CatchAction.class)
 public class Products extends Controller {
   @Inject
   FormFactory formFactory;
@@ -36,12 +35,12 @@ public class Products extends Controller {
     return ok(details.render(filledForm));
   }
   public Result save() {
-    Form<Product> boundForm = formFactory.form(Product.class);
+    Form<Product> boundForm = formFactory.form(Product.class).bindFromRequest();
     if(boundForm.hasErrors()) {
       flash("error", "Please correct the form below.");
       return badRequest(details.render(boundForm));
     }
-    Product product = boundForm.bindFromRequest().get();
+    Product product = boundForm.get();
     List<Tag> tags = new ArrayList<>();
     for(Tag tag : product.getTags()){
       if(tag.getId() != null){

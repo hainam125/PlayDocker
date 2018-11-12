@@ -1,6 +1,7 @@
 package models;
 
 import play.data.validation.Constraints;
+import play.libs.F;
 import play.mvc.PathBindable;
 
 import java.util.ArrayList;
@@ -51,6 +52,18 @@ public class Product implements PathBindable<Product> {
     products.add(this);
   }
 
+  public static class EanValidator extends Constraints.Validator<String> {
+    @Override
+    public boolean isValid(String value) {
+      String pattern = "^[0-9]{13}$";
+      return value != null && value.matches(pattern);
+    }
+    @Override
+    public F.Tuple<String, Object[]> getErrorMessageKey() {
+      return new F.Tuple<String, Object[]>("error.invalid.ean",new Object[]{});
+    }
+  }
+
   public String getEan() {
     return ean;
   }
@@ -84,6 +97,7 @@ public class Product implements PathBindable<Product> {
   }
 
   @Constraints.Required
+  @Constraints.ValidateWith(value=EanValidator.class, message="must be 13 numbers")
   private String ean;
   private String name;
   private String description;
