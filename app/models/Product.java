@@ -4,6 +4,13 @@ import play.data.validation.Constraints;
 import play.libs.F;
 import play.mvc.PathBindable;
 
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +59,11 @@ public class Product implements PathBindable<Product> {
     products.add(this);
   }
 
-  public static class EanValidator extends Constraints.Validator<String> {
+  public static class EanValidator extends Constraints.Validator<String> implements ConstraintValidator<EAN, String> {
+    final static public String message = "error.invalid.ean";
+    public EanValidator() {}
+    @Override
+    public void initialize(EAN constraintAnnotation) {}
     @Override
     public boolean isValid(String value) {
       String pattern = "^[0-9]{13}$";
@@ -60,8 +71,17 @@ public class Product implements PathBindable<Product> {
     }
     @Override
     public F.Tuple<String, Object[]> getErrorMessageKey() {
-      return new F.Tuple<String, Object[]>("error.invalid.ean",new Object[]{});
+      return new F.Tuple<String, Object[]>(message, new Object[]{});
     }
+  }
+
+  @Constraint(validatedBy = EanValidator.class)
+  @Target( { ElementType.FIELD })
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface EAN {
+    String message() default "error.invalid.ean";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
   }
 
   public String getEan() {
@@ -97,7 +117,7 @@ public class Product implements PathBindable<Product> {
   }
 
   @Constraints.Required
-  @Constraints.ValidateWith(value=EanValidator.class, message="must be 13 numbers")
+  @EAN
   private String ean;
   private String name;
   private String description;
