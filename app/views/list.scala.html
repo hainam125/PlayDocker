@@ -1,0 +1,13 @@
+@(products: List[Product])
+@main("Products catalogue") {
+<h2>All products</h2>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>EAN</th>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  @for(product <- products) {
