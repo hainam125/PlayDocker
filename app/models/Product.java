@@ -108,6 +108,14 @@ public class Product implements PathBindable<Product> {
     this.description = description;
   }
 
+  public byte[] getPicture() {
+    return picture;
+  }
+
+  public void setPicture(byte[] picture) {
+    this.picture = picture;
+  }
+
   public List<Tag> getTags() {
     return tags;
   }
@@ -121,6 +129,7 @@ public class Product implements PathBindable<Product> {
   private String ean;
   private String name;
   private String description;
+  private byte[] picture;
   private List<Tag> tags = new LinkedList<Tag>();
 
   public Product() {}
