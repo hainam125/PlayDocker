@@ -1,6 +1,5 @@
 package models;
 
-import io.ebeaninternal.server.lib.util.Str;
 import play.data.validation.Constraints;
 import play.libs.F;
 
@@ -11,17 +10,13 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
 import javax.persistence.*;
 import io.ebean.*;
 import play.mvc.PathBindable;
 
 @Entity
 public class Product extends Model implements PathBindable<Product> {
-  public static final Finder<Long, Product> find = new Finder<>(Product.class);
-
   public static class EanValidator extends Constraints.Validator<String> implements ConstraintValidator<EAN, String> {
     final static public String message = "error.invalid.ean";
     public EanValidator() {}
@@ -60,6 +55,15 @@ public class Product extends Model implements PathBindable<Product> {
   @Override
   public String javascriptUnbind() {
     return this.ean;
+  }
+
+  public static final Finder<Long, Product> find = new Finder<>(Product.class);
+  public static PagedList<Product> find(int page) {
+    return find.query().where()
+            .orderBy("id asc")
+            .setFirstRow(page)
+            .setMaxRows(10)
+            .findPagedList();
   }
 
   @Id

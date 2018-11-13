@@ -1,7 +1,7 @@
 package controllers;
 
 import com.google.common.io.Files;
-import io.ebeaninternal.server.lib.util.Str;
+import io.ebean.PagedList;
 import models.Product;
 import models.StockItem;
 import models.Tag;
@@ -27,7 +27,7 @@ public class Products extends Controller {
   }
 
   public Result list(int page) {
-    List<Product> products = Product.find.all();
+    PagedList<Product> products = Product.find(page);
     return ok(list.render(products));
   }
 
@@ -72,7 +72,7 @@ public class Products extends Controller {
     else product.update();
 
     flash("success", String.format("Successfully added product %s", product));
-    return redirect(routes.Products.list(1));
+    return redirect(routes.Products.list(0));
   }
 
   public Result delete(String ean) {
@@ -81,7 +81,7 @@ public class Products extends Controller {
       return notFound(String.format("Product %s does not exists.", ean));
     }
     product.delete();
-    return redirect(routes.Products.list(1));
+    return redirect(routes.Products.list(0));
   }
 
   public Result picture(String ean) {
