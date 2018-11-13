@@ -8,35 +8,36 @@ import io.ebean.*;
 public class Warehouse extends Model {
   public static final Finder<Long, Warehouse> find = new Finder<>(Warehouse.class);
 
-  private Warehouse warehouse;
-  private Product product;
-  private Long quantity;
+  @Id
+  private Long id;
+  private String name;
+  private List<StockItem> stock = new ArrayList<>();
 
-  public Warehouse getWarehouse() {
-    return warehouse;
+  public Long getId() {
+    return id;
   }
 
-  public void setWarehouse(Warehouse warehouse) {
-    this.warehouse = warehouse;
+  public void setId(Long id) {
+    this.id = id;
   }
 
-  public Product getProduct() {
-    return product;
+  public String getName() {
+    return name;
   }
 
-  public void setProduct(Product product) {
-    this.product = product;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public Long getQuantity() {
-    return quantity;
+  public List<StockItem> getStock() {
+    return stock;
   }
 
-  public void setQuantity(Long quantity) {
-    this.quantity = quantity;
+  public void setStock(List<StockItem> stock) {
+    this.stock = stock;
   }
 
   public String toString() {
-    return String.format("%d %s", quantity, product);
+    return name;
   }
 }

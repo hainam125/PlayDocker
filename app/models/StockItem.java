@@ -1,8 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import java.util.*;
 import javax.persistence.*;
 import io.ebean.*;
@@ -11,26 +8,45 @@ import io.ebean.*;
 public class StockItem extends Model {
   public static final Finder<Long, StockItem> find = new Finder<>(StockItem.class);
 
-  private String name;
-  private List<StockItem> stock = new ArrayList<>();
+  @Id
+  private Long id;
+  private Warehouse warehouse;
+  private Product product;
+  private Long quantity;
 
-  public String getName() {
-    return name;
+  public Long getId() {
+    return id;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setId(Long id) {
+    this.id = id;
   }
 
-  public List<StockItem> getStock() {
-    return stock;
+  public Warehouse getWarehouse() {
+    return warehouse;
   }
 
-  public void setStock(List<StockItem> stock) {
-    this.stock = stock;
+  public void setWarehouse(Warehouse warehouse) {
+    this.warehouse = warehouse;
+  }
+
+  public Product getProduct() {
+    return product;
+  }
+
+  public void setProduct(Product product) {
+    this.product = product;
+  }
+
+  public Long getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(Long quantity) {
+    this.quantity = quantity;
   }
 
   public String toString() {
-    return name;
+    return String.format("%d %s", quantity, product);
   }
 }

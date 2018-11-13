@@ -4,23 +4,30 @@
 # --- !Ups
 
 create table product (
+  id                            bigint auto_increment not null,
   ean                           varchar(255),
   name                          varchar(255),
   description                   varchar(255),
-  picture                       varbinary(255)
+  picture                       varbinary(255),
+  constraint pk_product primary key (id)
 );
 
 create table stock_item (
-  name                          varchar(255)
+  id                            bigint auto_increment not null,
+  quantity                      bigint,
+  constraint pk_stock_item primary key (id)
 );
 
 create table tag (
-  id                            bigint,
-  name                          varchar(255)
+  id                            bigint auto_increment not null,
+  name                          varchar(255),
+  constraint pk_tag primary key (id)
 );
 
 create table warehouse (
-  quantity                      bigint
+  id                            bigint auto_increment not null,
+  name                          varchar(255),
+  constraint pk_warehouse primary key (id)
 );
 
 

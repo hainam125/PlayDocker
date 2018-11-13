@@ -2,7 +2,6 @@ package models;
 
 import play.data.validation.Constraints;
 import play.libs.F;
-import play.mvc.PathBindable;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
@@ -11,7 +10,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.*;
@@ -45,6 +43,24 @@ public class Product extends Model {
     String message() default "error.invalid.ean";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+  }
+
+  @Id
+  private Long id;
+  @Constraints.Required
+  @EAN
+  private String ean;
+  private String name;
+  private String description;
+  private byte[] picture;
+  private List<Tag> tags = new LinkedList<Tag>();
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getEan() {
@@ -87,20 +103,6 @@ public class Product extends Model {
     this.tags = tags;
   }
 
-  @Constraints.Required
-  @EAN
-  private String ean;
-  private String name;
-  private String description;
-  private byte[] picture;
-  private List<Tag> tags = new LinkedList<Tag>();
-
-  public Product() {}
-  public Product(String ean, String name, String description) {
-    this.ean = ean;
-    this.name = name;
-    this.description = description;
-  }
   public String toString() {
     return String.format("%s - %s - %s", ean, name, description);
   }

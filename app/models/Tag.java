@@ -9,6 +9,12 @@ import java.util.*;
 public class Tag  extends Model {
   public static final Finder<Long, Tag> find = new Finder<>(Tag.class);
 
+  @Id
+  private Long id;
+  @Constraints.Required
+  private String name;
+  private List<Product> products;
+
   public Long getId() {
     return id;
   }
@@ -33,8 +39,4 @@ public class Tag  extends Model {
     this.products = products;
   }
 
-  private Long id;
-  @Constraints.Required
-  private String name;
-  private List<Product> products;
 }
