@@ -16,6 +16,7 @@
         <link rel="stylesheet" media="screen"href="@routes.Assets.versioned("bootstrap/css/bootstrap.min.css")" >
     </head>
     <body>
+        @navigation()
         <div class="container">
             @if(flash.containsKey("success")){
             <div class="alert alert-success">
