@@ -12,6 +12,7 @@ public class StockItem extends Model {
   private Long id;
   @ManyToOne
   private Warehouse warehouse;
+  @ManyToOne
   private Product product;
   private Long quantity;
 

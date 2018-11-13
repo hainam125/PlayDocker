@@ -53,7 +53,9 @@ public class Product extends Model {
   private String name;
   private String description;
   private byte[] picture;
-  private List<Tag> tags = new LinkedList<Tag>();
+  private List<Tag> tags;
+  @OneToMany(mappedBy = "product")
+  private List<StockItem> stockItems;
 
   public Long getId() {
     return id;

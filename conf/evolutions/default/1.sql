@@ -15,6 +15,7 @@ create table product (
 create table stock_item (
   id                            bigint auto_increment not null,
   warehouse_id                  bigint,
+  product_id                    bigint,
   quantity                      bigint,
   constraint pk_stock_item primary key (id)
 );
@@ -34,11 +35,17 @@ create table warehouse (
 alter table stock_item add constraint fk_stock_item_warehouse_id foreign key (warehouse_id) references warehouse (id) on delete restrict on update restrict;
 create index ix_stock_item_warehouse_id on stock_item (warehouse_id);
 
+alter table stock_item add constraint fk_stock_item_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_stock_item_product_id on stock_item (product_id);
+
 
 # --- !Downs
 
 alter table stock_item drop constraint if exists fk_stock_item_warehouse_id;
 drop index if exists ix_stock_item_warehouse_id;
+
+alter table stock_item drop constraint if exists fk_stock_item_product_id;
+drop index if exists ix_stock_item_product_id;
 
 drop table if exists product;
 

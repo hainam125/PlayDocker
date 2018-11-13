@@ -11,6 +11,7 @@ public class Warehouse extends Model {
   @Id
   private Long id;
   private String name;
+  @OneToMany(mappedBy = "warehouse")
   private List<StockItem> stock = new ArrayList<>();
 
   public Long getId() {
