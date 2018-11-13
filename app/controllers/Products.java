@@ -3,6 +3,7 @@ package controllers;
 import com.google.common.io.Files;
 import io.ebeaninternal.server.lib.util.Str;
 import models.Product;
+import models.StockItem;
 import models.Tag;
 import play.mvc.Http.MultipartFormData;
 import views.html.*;
@@ -59,14 +60,21 @@ public class Products extends Controller {
       }
     }
 
-    List<Tag> tags = new ArrayList<>();
+    /*List<Tag> tags = new ArrayList<>();
     for(Tag tag : product.getTags()){
       if(tag.getId() != null){
         tags.add(Tag.find.byId(tag.getId()));
       }
     }
-    product.setTags(tags);
+    product.setTags(tags);*/
+
+    StockItem item = new StockItem();
+    item.setQuantity(0L);
+    item.setProduct(product);
+
     product.save();
+    item.save();
+
     flash("success", String.format("Successfully added product %s", product));
     return redirect(routes.Products.list(1));
   }
