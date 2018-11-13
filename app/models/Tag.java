@@ -13,6 +13,7 @@ public class Tag  extends Model {
   private Long id;
   @Constraints.Required
   private String name;
+  @ManyToMany(mappedBy = "tags")
   private List<Product> products;
 
   public Long getId() {

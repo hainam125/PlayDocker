@@ -53,6 +53,7 @@ public class Product extends Model {
   private String name;
   private String description;
   private byte[] picture;
+  @ManyToMany
   private List<Tag> tags;
   @OneToMany(mappedBy = "product")
   private List<StockItem> stockItems;
