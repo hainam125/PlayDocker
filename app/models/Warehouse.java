@@ -11,6 +11,8 @@ public class Warehouse extends Model {
   @Id
   private Long id;
   private String name;
+  @OneToOne
+  private Address address;
   @OneToMany(mappedBy = "warehouse")
   private List<StockItem> stock = new ArrayList<>();
 
@@ -28,6 +30,14 @@ public class Warehouse extends Model {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
   }
 
   public List<StockItem> getStock() {
