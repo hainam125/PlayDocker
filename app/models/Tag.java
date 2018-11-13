@@ -8,6 +8,9 @@ import java.util.*;
 @Entity
 public class Tag  extends Model {
   public static final Finder<Long, Tag> find = new Finder<>(Tag.class);
+  public static Tag findById(Long id) {
+    return find.byId(id);
+  }
 
   @Id
   private Long id;

@@ -60,20 +60,16 @@ public class Products extends Controller {
       }
     }
 
-    /*List<Tag> tags = new ArrayList<>();
+    List<Tag> tags = new ArrayList<>();
     for(Tag tag : product.getTags()){
       if(tag.getId() != null){
         tags.add(Tag.find.byId(tag.getId()));
       }
     }
-    product.setTags(tags);*/
+    product.setTags(tags);
 
-    StockItem item = new StockItem();
-    item.setQuantity(0L);
-    item.setProduct(product);
-
-    product.save();
-    item.save();
+    if(product.getId() == null) product.save();
+    else product.update();
 
     flash("success", String.format("Successfully added product %s", product));
     return redirect(routes.Products.list(1));

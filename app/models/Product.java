@@ -1,5 +1,6 @@
 package models;
 
+import io.ebeaninternal.server.lib.util.Str;
 import play.data.validation.Constraints;
 import play.libs.F;
 
@@ -15,9 +16,10 @@ import java.util.List;
 import java.util.*;
 import javax.persistence.*;
 import io.ebean.*;
+import play.mvc.PathBindable;
 
 @Entity
-public class Product extends Model {
+public class Product extends Model implements PathBindable<Product> {
   public static final Finder<Long, Product> find = new Finder<>(Product.class);
 
   public static class EanValidator extends Constraints.Validator<String> implements ConstraintValidator<EAN, String> {
@@ -43,6 +45,21 @@ public class Product extends Model {
     String message() default "error.invalid.ean";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+  }
+
+  @Override
+  public Product bind(String key, String value) {
+    return findByEan(value);
+  }
+
+  @Override
+  public String unbind(String key) {
+    return this.ean;
+  }
+
+  @Override
+  public String javascriptUnbind() {
+    return this.ean;
   }
 
   @Id
@@ -108,5 +125,9 @@ public class Product extends Model {
 
   public String toString() {
     return String.format("%s - %s - %s", ean, name, description);
+  }
+
+  public Product findByEan(String ean) {
+    return find.query().where().eq("ean", ean).findUnique();
   }
 }
