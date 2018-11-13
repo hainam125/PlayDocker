@@ -35,7 +35,7 @@ public class Products extends Controller {
     return ok(details.render(productForm));
   }
   public Result details(String ean) {
-    Product product = Product.find.query().findOne();
+    Product product = Product.find.query().where().eq("ean", ean).findOne();
     Form<Product> filledForm = formFactory.form(Product.class).fill(product);
     return ok(details.render(filledForm));
   }
@@ -72,15 +72,15 @@ public class Products extends Controller {
   }
 
   public Result delete(String ean) {
-    final Product product = Product.find.query().findOne();
+    Product product = Product.find.query().where().eq("ean", ean).findOne();
     if(product == null) {
-      return notFound(String.format("Product %s does not exists.", id));
+      return notFound(String.format("Product %s does not exists.", ean));
     }
-    //Product.find.deleteById((Long) 0);
+    product.delete();
     return redirect(routes.Products.list(1));
   }
 
-  public Result picture(String id) {
+  public Result picture(String ean) {
     final Product product = Product.find.query().findOne();
     if(product == null) return notFound();
     return ok(product.getPicture());
