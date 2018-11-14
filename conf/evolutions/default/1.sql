@@ -67,19 +67,19 @@ alter table warehouse add constraint fk_warehouse_address_id foreign key (addres
 
 # --- !Downs
 
-alter table product_tag drop constraint if exists fk_product_tag_product;
-drop index if exists ix_product_tag_product;
+alter table product_tag drop foreign key fk_product_tag_product;
+drop index ix_product_tag_product on product_tag;
 
-alter table product_tag drop constraint if exists fk_product_tag_tag;
-drop index if exists ix_product_tag_tag;
+alter table product_tag drop foreign key fk_product_tag_tag;
+drop index ix_product_tag_tag on product_tag;
 
-alter table stock_item drop constraint if exists fk_stock_item_warehouse_id;
-drop index if exists ix_stock_item_warehouse_id;
+alter table stock_item drop foreign key fk_stock_item_warehouse_id;
+drop index ix_stock_item_warehouse_id on stock_item;
 
-alter table stock_item drop constraint if exists fk_stock_item_product_id;
-drop index if exists ix_stock_item_product_id;
+alter table stock_item drop foreign key fk_stock_item_product_id;
+drop index ix_stock_item_product_id on stock_item;
 
-alter table warehouse drop constraint if exists fk_warehouse_address_id;
+alter table warehouse drop foreign key fk_warehouse_address_id;
 
 drop table if exists address;
 
